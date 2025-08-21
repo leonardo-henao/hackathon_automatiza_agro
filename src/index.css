@@ -1,3 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 @import "tailwindcss";
 
-:root {}
+:root {
+  --cl-primary: 79, 241, 38;
+  --cl-bg-modal: rgba(0, 0, 0, 0.5);
+  --cl-bg-modal-content: rgba(255, 255, 255, 1);
+  --cl-warn: 255, 166, 0;
+  --cl-error: 255, 0, 0;
+
+  --fn-primary: "Poppins", sans-serif;
+  --fn-secondary: "Google Sans Code", monospace;
+}
+
+article {
+  padding: 1rem;
+}
+
+button {
+  cursor: pointer;
+}
+
+input,
+select {
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  border: 1px solid gray;
+  border-radius: .2rem;
+}
+
+input[type="number"] {
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Form add content */
+
+form .form-group {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0;
+}
+
+form select {
+  display: block;
+  width: 100%;
+}
+
+
+/* Modal */
+
+.modal {
+  width: 100dvw;
+  height: 100dvh;
+  background-color: var(--cl-bg-modal);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(2px);
+}
+
+.modal_body {
+  background-color: var(--cl-bg-modal-content);
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px var(--cl-bg-modal-content);
+  max-width: 350px;
+  width: 90%;
+}
+
+.modal_body-title {
+  text-align: center;
+}
+
+.modal_body-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.modal_body-content {
+  padding: 0rem 0.5rem 1rem 0.5rem;
+}
+
+.modal_body-actions button {
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.modal_body-actions-button-ok {
+  background-color: rgba(var(--cl-primary), 1);
+}
+
+.modal_body-actions-button-ok:hover {
+  background-color: rgba(var(--cl-primary), 0.8);
+}
+
+/* Table */
+.cell_table {
+  text-align: center;
+}
