@@ -1,6 +1,7 @@
-import { FaGithub } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
+import { BrowserView, MobileView } from 'react-device-detect';
 import Chart from 'react-google-charts';
+import { FaGithub } from 'react-icons/fa';
 import { IoMdAdd } from 'react-icons/io';
 import { toast, ToastContainer } from 'react-toastify';
 import './App.css';
@@ -12,7 +13,6 @@ import type { DataPieType } from './types/dataPieType';
 import type { DataTableRecordsType } from './types/dataTableRecords';
 import type { RecordToSaveType } from './types/recordToSaveType';
 import type { RecordType } from './types/recordType';
-import { BrowserView, MobileView } from 'react-device-detect';
 
 const getNameCrop = (list: CropType[], cropId: string) => {
   return list.find((crop) => crop.id == cropId)!.nombre;
@@ -58,6 +58,7 @@ function App() {
     joinCrop.push({
       cultivo: 'Cultivos',
       nombre_cultivo: 'Cultivos',
+      cantidad_cultivos: 'Cantidad cultivos',
       rendimiento_toneladas: 'Rendimiento toneladas',
     });
     allDataRecords.forEach((crop) => {
@@ -65,6 +66,7 @@ function App() {
         joinCrop.push({
           cultivo: crop.cultivo,
           nombre_cultivo: getNameCrop(allDataCrops, crop.cultivo),
+          cantidad_cultivos: 1,
           rendimiento_toneladas: parseFloat(crop.rendimiento_toneladas.toString()),
         });
       } else {
@@ -73,6 +75,10 @@ function App() {
             let tmp = parseInt(joinCrop[i].rendimiento_toneladas.toString());
             tmp += parseFloat(crop.rendimiento_toneladas.toString());
             joinCrop[i].rendimiento_toneladas = tmp;
+
+            let tmpCultivo = parseInt(joinCrop[i].cantidad_cultivos.toString());
+            tmpCultivo++;
+            joinCrop[i].cantidad_cultivos = tmpCultivo;
           }
         });
       }
@@ -117,7 +123,8 @@ function App() {
         </button>
       </nav>
       <article className=" rounded-b-[4rem] relative hero_one">
-        <TitleSection className="text-white" title="Cultivos en el Valle del Cauca" />
+        <TitleSection className="text-white" title={`Cultivos en el Valle del Cauca`} />
+        <span className="text-white text-sm opacity-40">Cantidad de Registros {allDataRecords.length}</span>
         <BrowserView>
           <Chart
             chartType="PieChart"
@@ -171,7 +178,11 @@ function App() {
         <TitleSection title="Rendimiento por cosecha" />
         <Chart
           chartType="Table"
-          data={dataToTableProduct.map((x) => [x.nombre_cultivo, x.rendimiento_toneladas])}
+          data={dataToTableProduct.map((x) => [
+            x.nombre_cultivo,
+            x.cantidad_cultivos,
+            x.rendimiento_toneladas,
+          ])}
           options={{
             // @ts-expect-error "Unknown type"
             width: '100%',
