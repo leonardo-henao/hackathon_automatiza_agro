@@ -63,13 +63,13 @@ function App() {
         joinCrop.push({
           cultivo: crop.cultivo,
           nombre_cultivo: getNameCrop(allDataCrops, crop.cultivo),
-          rendimiento_toneladas: crop.rendimiento_toneladas,
+          rendimiento_toneladas: parseFloat(crop.rendimiento_toneladas.toString()),
         });
       } else {
         joinCrop.forEach((x, i) => {
           if (x.cultivo === crop.cultivo) {
             let tmp = parseInt(joinCrop[i].rendimiento_toneladas.toString());
-            tmp += crop.rendimiento_toneladas;
+            tmp += parseFloat(crop.rendimiento_toneladas.toString());
             joinCrop[i].rendimiento_toneladas = tmp;
           }
         });
@@ -105,7 +105,7 @@ function App() {
   return (
     <>
       <nav className="flex justify-between px-2 py-4 bg-black/90 m-0 text-white">
-        <div className="text-3xl font-bold ">Automatiza el agro</div>
+        <div className="text-2xl md:text-3xl font-bold ">Automatiza el agro</div>
         <button
           className="flex justify-center items-center bg-[rgba(var(--cl-primary),1)] text-black rounded-md p-2  gap-2"
           onClick={() => setShowModalAddProduct(true)}
@@ -130,6 +130,9 @@ function App() {
               textStyle: {
                 color: 'white',
               },
+              alignment: 'center',
+              position: 'labeled',
+              maxLines: 2,
             },
           }}
           width={'100%'}
