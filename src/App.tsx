@@ -21,6 +21,8 @@ const getNameCrop = (list: CropType[], cropId: string) => {
 function App() {
   const [allDataRecords, setAllDataRecords] = useState<RecordType[]>([]);
 
+  const [allRecordsToShow, setAllRecordsToShow] = useState<RecordToSaveType[]>([]);
+
   const [allDataCrops, setAllDataCrops] = useState<CropType[]>([]);
 
   const [dataToPie, setDataToPie] = useState<DataPieType[]>([]);
@@ -93,6 +95,25 @@ function App() {
         setAllDataCrops(responseCrops.data);
         parseDataPie();
         parseDataTableProduct();
+
+        const tempToShow: RecordToSaveType[] = [];
+        tempToShow.push({
+          id_finca: 'Finca',
+          cultivo: 'Cultivo',
+          rendimiento_toneladas: 'Rendimiento toneladas',
+          fecha_siembra: 'Fecha siembra',
+        });
+
+        responseRecords.data.forEach((crop: RecordType) => {
+          tempToShow.push({
+            id_finca: crop.id_finca.toString(),
+            cultivo: getNameCrop(allDataCrops, crop.cultivo),
+            rendimiento_toneladas: crop.rendimiento_toneladas.toString(),
+            fecha_siembra: crop.fecha_siembra,
+          });
+
+          setAllRecordsToShow(tempToShow);
+        });
       });
     });
   });
@@ -174,6 +195,7 @@ function App() {
           />
         </MobileView>
       </article>
+
       <article className="mt-8">
         <TitleSection title="Rendimiento por cosecha" />
         <Chart
@@ -188,12 +210,35 @@ function App() {
             width: '100%',
             // @ts-expect-error "Unknown type"
             height: '100%',
-            showRowNumber: true,
+            showRowNumber: false,
             allowHtml: true,
             cssClassNames: { tableCell: 'cell_table' },
           }}
         />
       </article>
+
+      <article className="mt-8">
+        <TitleSection title="Registros" />
+        <Chart
+          chartType="Table"
+          data={allRecordsToShow.map((x) => [
+            x.id_finca,
+            x.cultivo,
+            x.fecha_siembra,
+            x.rendimiento_toneladas,
+          ])}
+          options={{
+            // @ts-expect-error "Unknown type"
+            width: '100%',
+            // @ts-expect-error "Unknown type"
+            height: '100%',
+            showRowNumber: false,
+            allowHtml: true,
+            cssClassNames: { tableCell: 'cell_table' },
+          }}
+        />
+      </article>
+
       <footer className="mt-12 bg-black/90 text-white px-4 py-8 flex flex-col gap-4 justify-center items-center">
         <span className="opacity-70 text-sm flex gap-2">
           © 2025
