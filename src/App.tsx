@@ -1,3 +1,4 @@
+import { FaGithub } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import Chart from 'react-google-charts';
 import { IoMdAdd } from 'react-icons/io';
@@ -11,6 +12,7 @@ import type { DataPieType } from './types/dataPieType';
 import type { DataTableRecordsType } from './types/dataTableRecords';
 import type { RecordToSaveType } from './types/recordToSaveType';
 import type { RecordType } from './types/recordType';
+import { BrowserView, MobileView } from 'react-device-detect';
 
 const getNameCrop = (list: CropType[], cropId: string) => {
   return list.find((crop) => crop.id == cropId)!.nombre;
@@ -114,30 +116,56 @@ function App() {
           <IoMdAdd />
         </button>
       </nav>
-      <article className="bg-black/90 rounded-b-[4rem]">
+      <article className=" rounded-b-[4rem] relative hero_one">
         <TitleSection className="text-white" title="Cultivos en el Valle del Cauca" />
-        <Chart
-          chartType="PieChart"
-          data={dataToPie.map((x) => [x.name, x.quantity])}
-          options={{
-            title: '',
-            is3D: true,
-            backgroundColor: 'transparent',
-            pieSliceTextStyle: {
-              color: 'white',
-            },
-            legend: {
-              textStyle: {
+        <BrowserView>
+          <Chart
+            chartType="PieChart"
+            data={dataToPie.map((x) => [x.name, x.quantity])}
+            options={{
+              title: '',
+              is3D: true,
+              backgroundColor: 'transparent',
+              pieSliceTextStyle: {
                 color: 'white',
               },
-              alignment: 'center',
-              position: 'labeled',
-              maxLines: 2,
-            },
-          }}
-          width={'100%'}
-          height={'400px'}
-        />
+              legend: {
+                textStyle: {
+                  color: 'white',
+                },
+                alignment: 'center',
+                position: 'labeled',
+                maxLines: 2,
+              },
+            }}
+            width={'100%'}
+            height={'400px'}
+          />
+        </BrowserView>
+        <MobileView>
+          <Chart
+            chartType="PieChart"
+            data={dataToPie.map((x) => [x.name, x.quantity])}
+            options={{
+              title: '',
+              is3D: true,
+              backgroundColor: 'transparent',
+              pieSliceTextStyle: {
+                color: 'white',
+              },
+              legend: {
+                textStyle: {
+                  color: 'white',
+                },
+                alignment: 'center',
+                position: 'right',
+                maxLines: 2,
+              },
+            }}
+            width={'100%'}
+            height={'400px'}
+          />
+        </MobileView>
       </article>
       <article className="mt-8">
         <TitleSection title="Rendimiento por cosecha" />
@@ -155,6 +183,34 @@ function App() {
           }}
         />
       </article>
+      <footer className="mt-12 bg-black/90 text-white px-4 py-8 flex flex-col gap-4 justify-center items-center">
+        <span className="opacity-70 text-sm flex gap-2">
+          © 2025
+          <a href="http://leonardohenao.com" target="_blank" rel="noopener noreferrer">
+            Leonardo Henao
+          </a>
+          -
+          <a href="http://instagram.com/isabel.agfi" target="_blank" rel="noopener noreferrer">
+            Isabel Agudelo
+          </a>
+          -
+          <a href="https://www.facebook.com/share/17FernSMgv/" target="_blank" rel="noopener noreferrer">
+            Valeria Valencia
+          </a>
+        </span>
+        <span>Agricultura Digital con Propósito</span>
+        <ul>
+          <li>
+            <a
+              href="https://github.com/leonardo-henao/hackathon_automatiza_agro"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaGithub />
+            </a>
+          </li>
+        </ul>
+      </footer>
       {showModalAddProduct && (
         <DialogAddRecord
           cancelHandler={() => setShowModalAddProduct(false)}
